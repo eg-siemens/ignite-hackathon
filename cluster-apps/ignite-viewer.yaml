@@ -5,32 +5,35 @@ metadata:
     name: ignite
   name: ignite
 ---
-apiVersion: apps/v1
+apiVersion: apps/v1 
 kind: Deployment
 metadata:
   name: ignite-viewer
   namespace: ignite
 spec:
-  imagePullSecrets:
-  - name: regcred
-  replicas: 2
   selector:
     matchLabels:
       app: ignite-viewer
+  replicas: 1 
   template:
     metadata:
       labels:
         app: ignite-viewer
     spec:
-      nodeSelector:
-        kubernetes.io/arch: amd64
-        kubernetes.io/os: linux
+      imagePullSecrets:
+      - name: regcred
       containers:
       - name: ignite-viewer
         image: syngopredevelopmentimages.azurecr.io/igniteviewer:1.0
         ports:
         - containerPort: 80
-          name: ignite-viewer
+        resources:
+          limits:
+            cpu: 800m
+          requests:
+            cpu: 200m
+      nodeSelector:
+        kubernetes.io/os: linux
 ---
 apiVersion: v1
 kind: Service
