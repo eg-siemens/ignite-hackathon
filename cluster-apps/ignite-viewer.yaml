@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  labels:
+    name: ignite
+  name: ignite
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ignite-viewer
+  namespace: ignite
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ignite-viewer
+  template:
+    metadata:
+      labels:
+        app: ignite-viewer
+    spec:
+      nodeSelector:
+        kubernetes.io/arch: amd64
+        kubernetes.io/os: linux
+      containers:
+      - name: ignite-viewer
+        image: syngopredevelopmentimages.azurecr.io/igniteviewer:1.0
+        ports:
+        - containerPort: 80
+          name: ignite-viewer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ignite-viewer
+  namespace: ignite
+spec:
+  ports:
+  - port: 80
+  selector:
+    app: ignite-viewer
