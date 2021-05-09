@@ -26,7 +26,7 @@ spec:
       - name: regcred
       containers:
       - name: ignite-viewer
-        image: syngopredevelopmentimages.azurecr.io/igniteviewer:4.0
+        image: syngopredevelopmentimages.azurecr.io/igniteviewer:3.0
         ports:
         - containerPort: 80
         resources:
